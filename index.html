@@ -101,7 +101,7 @@
 </form>
 
 <script>
-  const API_URL = 'https://script.google.com/macros/s/AKfycbyWtenj3crQcPhaZtVNH-jlFdX94jtG8yikwjBQxxdLBtboyqu7qqzhnpjNldaAJlAoyQ/exec';
+  const API_URL = 'https://script.google.com/macros/s/AKfycbw0qEhW0lq3hraIZP2Ge3B8eXey3SJS0VOohtFL0g76jUtrdF3XU-7TMh4KnGEPA7MViQ/exec';
 
   const form = document.getElementById('formEntidad');
   const msg = document.getElementById('msg');
@@ -126,8 +126,12 @@
 fetch(API_URL, {
   method: 'POST',
   mode: 'no-cors',
+  headers: {
+    'Content-Type': 'application/json'
+  },
   body: JSON.stringify(data)
 });
+
 alert("Formulario enviado");
 
 
