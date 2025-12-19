@@ -123,25 +123,14 @@
       servicios: formData.getAll('servicios')
     };
 
-    fetch(API_URL, {
-      method: 'POST',
-      body: JSON.stringify(data)
-    })
-    .then(res => res.json())
-    .then(res => {
-      if (res.ok) {
-        msg.style.color = 'green';
-        msg.textContent = 'Entidad registrada correctamente';
-        form.reset();
-      } else {
-        msg.style.color = 'red';
-        msg.textContent = res.msg || 'Error al registrar';
-      }
-    })
-    .catch(() => {
-      msg.style.color = 'red';
-      msg.textContent = 'Error de conexión';
-    });
+fetch(API_URL, {
+  method: 'POST',
+  body: JSON.stringify({ action: 'ping' })
+})
+.then(r => r.json())
+.then(console.log)
+.catch(console.error);
+
   });
   
   function login(data) {
