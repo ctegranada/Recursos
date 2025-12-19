@@ -101,7 +101,7 @@
 </form>
 
 <script>
-  const API_URL = 'https://script.google.com/macros/s/AKfycbzW-GkhwAuAxrIlWlVUwJVndujVU1DC_WNqoPJ-4SiiqAsIWDYRBty40XrBdc0Hoct9/exec';
+  const API_URL = 'https://script.google.com/macros/s/AKfycbyw-IplID_vEBdIzUObkDlApNvSMSbblBd0xx8TEVoHZhzpvLuV37A3ftOn7X-vOD_xLQ/exec';
 
   const form = document.getElementById('formEntidad');
   const msg = document.getElementById('msg');
@@ -143,6 +143,24 @@
       msg.textContent = 'Error de conexión';
     });
   });
+  
+  function login(data) {
+    const shAcc = getSheet(HOJA_ACCESO);
+    const rows = shAcc.getDataRange().getValues();
+  
+    const hash = Utilities.computeDigest(
+      Utilities.DigestAlgorithm.SHA_256,
+      data.clave
+    ).map(b => ('0' + (b & 0xFF).toString(16)).slice(-2)).join('');
+  
+    for (let i = 1; i < rows.length; i++) {
+      if (rows[i][1] === data.usuario && rows[i][2] === hash) {
+        return { ok: true, idEntidad: rows[i][0] };
+      }
+    }
+    return { ok: false, msg: 'Credenciales incorrectas' };
+  }
+  
 </script>
 
 </body>
