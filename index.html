@@ -101,7 +101,7 @@
 </form>
 
 <script>
-  const API_URL = 'https://script.google.com/macros/s/AKfycbzVjf1fj3NghTirs5nTR-zhEP66jn9ZVBeohN7c-Uren5_kwz3uc219hutwE6JvN4tW0Q/exec';
+  const API_URL = 'https://script.google.com/macros/s/AKfycbyWtenj3crQcPhaZtVNH-jlFdX94jtG8yikwjBQxxdLBtboyqu7qqzhnpjNldaAJlAoyQ/exec';
 
   const form = document.getElementById('formEntidad');
   const msg = document.getElementById('msg');
@@ -123,32 +123,13 @@
       servicios: formData.getAll('servicios')
     };
 
-fetch(API_URL, {
-  method: 'POST',
-  body: JSON.stringify({ action: 'ping' })
-})
-.then(r => r.json())
-.then(console.log)
-.catch(console.error);
+fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'ping' }) })
+  .then(r => r.json())
+  .then(console.log)
+  .catch(console.error);
+
 
   });
-  
-  function login(data) {
-    const shAcc = getSheet(HOJA_ACCESO);
-    const rows = shAcc.getDataRange().getValues();
-  
-    const hash = Utilities.computeDigest(
-      Utilities.DigestAlgorithm.SHA_256,
-      data.clave
-    ).map(b => ('0' + (b & 0xFF).toString(16)).slice(-2)).join('');
-  
-    for (let i = 1; i < rows.length; i++) {
-      if (rows[i][1] === data.usuario && rows[i][2] === hash) {
-        return { ok: true, idEntidad: rows[i][0] };
-      }
-    }
-    return { ok: false, msg: 'Credenciales incorrectas' };
-  }
   
 </script>
 
