@@ -28,11 +28,17 @@
       border-radius: 10px;
     }
 
+    h2 {
+      margin-bottom: 25px;
+      color: #2c3e50;
+      text-align: center;
+    }
+
     .botones {
       display: flex;
       flex-direction: column;
       gap: 15px;
-      max-width: 300px;
+      max-width: 320px;
       width: 100%;
     }
 
@@ -43,31 +49,49 @@
       border-radius: 8px;
       cursor: pointer;
       transition: background 0.2s;
+      font-weight: 600;
+    }
+
+    .btn-recursos {
+      background-color: #2c7be5;
       color: #fff;
     }
+    .btn-recursos:hover { background-color: #1a5bb8; }
 
-    .botones button:nth-child(1) { background-color: #c6ad90; color: #222 }
-    .botones button:nth-child(1):hover { background-color: #A68053; }
-
-    .botones button:nth-child(2) { background-color: #53a181; }
-    .botones button:nth-child(2):hover { background-color: #1e8449; }
-
-    h2 {
-      text-align: center;
-      margin-bottom: 30px;
-      color: #2c3e50;
+    .btn-acceso {
+      background-color: #c6ad90;
+      color: #222;
     }
+    .btn-acceso:hover { background-color: #A68053; }
+
+    .btn-alta {
+      background-color: #53a181;
+      color: #fff;
+    }
+    .btn-alta:hover { background-color: #1e8449; }
   </style>
 </head>
+
 <body>
 
   <div class="logo-container">
     <img src="https://i.imgur.com/qDoAAWT.png" alt="Logo">
   </div>
 
+  <h2>Plataforma de entidades</h2>
+
   <div class="botones">
-    <button onclick="ir('login')">Acceder</button>
-    <button onclick="ir('entidades')">Alta de nueva entidad</button>
+    <button class="btn-recursos" onclick="ir('recursos')">
+      Recursos compartidos
+    </button>
+
+    <button class="btn-acceso" onclick="ir('login')">
+      Acceso privado
+    </button>
+
+    <button class="btn-alta" onclick="ir('entidades')">
+      Alta de entidad
+    </button>
   </div>
 
   <script>
@@ -79,5 +103,3 @@
 
 </body>
 </html>
-
-
