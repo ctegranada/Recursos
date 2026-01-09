@@ -2,101 +2,153 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Inicio</title>
+  <title>Recursos Compartidos</title>
   <style>
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
       background: #f4f6f8;
       margin: 0;
-      padding: 40px 20px;
+      padding: 30px 20px;
       color: #333;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
     }
 
-    .logo-container {
+    header {
+      max-width: 900px;
+      margin: auto;
+      text-align: center;
+    }
+
+    header img {
       max-width: 650px;
       width: 100%;
-      text-align: center;
-      margin-bottom: 40px;
-    }
-
-    .logo-container img {
-      width: 100%;
-      height: auto;
       border-radius: 10px;
+      margin-bottom: 20px;
     }
 
-    h2 {
-      margin-bottom: 25px;
-      color: #2c3e50;
-      text-align: center;
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 900px;
+      margin: 20px auto;
     }
 
-    .botones {
+    .top-bar h2 {
+      margin: 0;
+    }
+
+    .login-btn {
+      cursor: pointer;
+      font-size: 22px;
+    }
+
+    .recursos {
+      max-width: 900px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .recurso {
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
       display: flex;
       flex-direction: column;
-      gap: 15px;
-      max-width: 320px;
-      width: 100%;
+      gap: 10px;
     }
 
-    .botones button {
-      padding: 14px;
-      font-size: 16px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.2s;
-      font-weight: 600;
+    .recurso h3 {
+      margin: 0;
+      color: #2c3e50;
+      font-size: 18px;
     }
 
-    .btn-recursos {
-      background-color: #2c7be5;
+    .recurso small {
+      color: #777;
+    }
+
+    .recurso a {
+      margin-top: auto;
+      text-decoration: none;
+      background: #2c7be5;
       color: #fff;
+      padding: 10px;
+      text-align: center;
+      border-radius: 6px;
+      transition: 0.2s;
     }
-    .btn-recursos:hover { background-color: #1a5bb8; }
 
-    .btn-acceso {
-      background-color: #c6ad90;
-      color: #222;
+    .recurso a:hover {
+      background: #1a5fc4;
     }
-    .btn-acceso:hover { background-color: #A68053; }
+
+    .loading {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 16px;
+    }
   </style>
 </head>
-
 <body>
 
-  <div class="logo-container">
-    <img src="https://i.imgur.com/qDoAAWT.png" alt="Logo">
-  </div>
+<header>
+  <img src="https://i.imgur.com/qDoAAWT.png" alt="Logo">
+</header>
 
-  <h2>Plataforma de entidades</h2>
+<div class="top-bar">
+  <h2>Recursos compartidos</h2>
+  <div class="login-btn" title="Acceso privado" onclick="irPrivado()">🔑</div>
+</div>
 
-  <div class="botones">
-    <!-- Recursos públicos -->
-    <button class="btn-recursos" onclick="irRecursos()">
-      Recursos compartidos
-    </button>
+<div id="estado" class="loading">Cargando recursos...</div>
 
-    <!-- Acceso privado (Web App GAS) -->
-    <button class="btn-acceso" onclick="irAccesoPrivado()">
-      Acceso privado
-    </button>
-  </div>
+<div id="contenedorRecursos" class="recursos"></div>
 
-  <script>
-    function irRecursos() {
-      // Página pública (GitHub, otra web, o page=recursos si la tienes en GAS)
-      window.location.href = 'recursos.html';
-    }
+<script>
+const ENDPOINT = 'https://script.google.com/macros/s/XXXXX/exec?action=recursos';
 
-    function irAccesoPrivado() {
-      window.location.href =
-        'https://script.google.com/macros/s/AKfycbwGzo9X0r0J30SiQC941ys8Ayjw3x8lSrRiVO0Wj0xfBk324dE1FJyadVoWrpPNjBqd/exec';
-    }
-  </script>
+function irPrivado() {
+  window.location.href =
+    'https://script.google.com/macros/s/AKfycbwGzo9X0r0J30SiQC941ys8Ayjw3x8lSrRiVO0Wj0xfBk324dE1FJyadVoWrpPNjBqd/exec';
+}
+
+fetch(ENDPOINT)
+  .then(r => r.json())
+  .then(data => pintarRecursos(data))
+  .catch(() => {
+    document.getElementById('estado').textContent =
+      'No se han podido cargar los recursos.';
+  });
+
+function pintarRecursos(recursos) {
+  const cont = document.getElementById('contenedorRecursos');
+  const estado = document.getElementById('estado');
+  estado.style.display = 'none';
+
+  if (!recursos.length) {
+    estado.style.display = 'block';
+    estado.textContent = 'No hay recursos disponibles.';
+    return;
+  }
+
+  recursos.forEach(r => {
+    const div = document.createElement('div');
+    div.className = 'recurso';
+
+    div.innerHTML = `
+      <h3>${r.titulo}</h3>
+      <small>${r.entidad} · ${r.categoria}</small>
+      <p>${r.descripcion}</p>
+      <a href="${r.url}" target="_blank">Acceder al recurso</a>
+    `;
+
+    cont.appendChild(div);
+  });
+}
+</script>
 
 </body>
 </html>
