@@ -63,12 +63,6 @@
       color: #222;
     }
     .btn-acceso:hover { background-color: #A68053; }
-
-    .btn-alta {
-      background-color: #53a181;
-      color: #fff;
-    }
-    .btn-alta:hover { background-color: #1e8449; }
   </style>
 </head>
 
@@ -81,23 +75,26 @@
   <h2>Plataforma de entidades</h2>
 
   <div class="botones">
-    <button class="btn-recursos" onclick="ir('recursos')">
+    <!-- Recursos públicos -->
+    <button class="btn-recursos" onclick="irRecursos()">
       Recursos compartidos
     </button>
 
-    <button class="btn-acceso" onclick="ir('login')">
+    <!-- Acceso privado (Web App GAS) -->
+    <button class="btn-acceso" onclick="irAccesoPrivado()">
       Acceso privado
-    </button>
-
-    <button class="btn-alta" onclick="ir('entidades')">
-      Alta de entidad
     </button>
   </div>
 
   <script>
-    function ir(p) {
-      window.top.location.href =
-        '<?= ScriptApp.getService().getUrl() ?>?page=' + p;
+    function irRecursos() {
+      // Página pública (GitHub, otra web, o page=recursos si la tienes en GAS)
+      window.location.href = 'recursos.html';
+    }
+
+    function irAccesoPrivado() {
+      window.location.href =
+        'https://script.google.com/macros/s/AKfycbwGzo9X0r0J30SiQC941ys8Ayjw3x8lSrRiVO0Wj0xfBk324dE1FJyadVoWrpPNjBqd/exec';
     }
   </script>
 
