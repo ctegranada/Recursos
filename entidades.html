@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Listado de Entidades</title>
+  <style>
+    <?!= include('styles') ?>
+  </style>
+</head>
+<body>
+  <header>
+    <img src="https://i.imgur.com/qDoAAWT.png" alt="Logo">
+  </header>
+
+  <div class="top-bar">
+    <h2>Entidades y recursos públicos</h2>
+    <div class="login-btn" title="Acceso privado" onclick="irPrivado()">🔑</div>
+  </div>
+
+  <div id="estado" class="loading">Cargando recursos...</div>
+  <div id="contenedorRecursos" class="recursos"></div>
+
+  <script>
+    <?!= include('funciones') ?>
+
+    const ENDPOINT = '<?= BASE_URL ?>?action=recursos';
+    fetch(ENDPOINT)
+      .then(r => r.json())
+      .then(data => pintarRecursos(data))
+      .catch(() => {
+        document.getElementById('estado').textContent =
+          'No se han podido cargar los recursos.';
+      });
+  </script>
+</body>
+</html>
